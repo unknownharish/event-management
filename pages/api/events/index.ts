@@ -1,0 +1,1 @@
+// GET /api/events - List events with pagination and filters

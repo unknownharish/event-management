@@ -1,0 +1,1 @@
+// GET /api/admin/popular-events - Top events in last 30 days
