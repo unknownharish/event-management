@@ -11,6 +11,8 @@ import { fetchData } from "../config/methods"
 import { MethodHeaders } from "../config/api"
 import { setToken } from "../utils/utils"
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slice";
 
 
 
@@ -23,7 +25,10 @@ interface LoginFormData {
 
 export default function login({ setisSignUp }) {
 
-    const router = useRouter()
+    const router = useRouter();
+    const dispatch = useDispatch();
+
+
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
 
     const onSubmit = async (data: LoginFormData) => {
@@ -39,9 +44,10 @@ export default function login({ setisSignUp }) {
 
         console.log("response", response)
         if (response.token) {
-            setToken(response.token)
+            dispatch(setUser(response))
+            // setToken(response.token)
             toast.success("Loggin In")
-            router.push("/dashboard")
+            router.push("/events")
         }
     };
 

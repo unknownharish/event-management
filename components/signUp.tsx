@@ -45,7 +45,7 @@ export default function SignUp({ setisSignUp }) {
         if (response.token) {
             setToken(response.token)
             toast.success("Loggin In")
-            router.push("/dashboard")
+            router.push("/events")
         }
 
 

@@ -2,7 +2,6 @@ export const MethodHeaders = {
 
 
 
-
     LOGIN:{
         URL:"/api/login",
         options:{
@@ -18,6 +17,14 @@ export const MethodHeaders = {
 
         },
         method:"post"
+    
+    },
+    GET_EVENTS:{
+        URL:"/api/events?name={{NAME}}",
+        options:{
+
+        },
+        method:"get"
     
     },
 

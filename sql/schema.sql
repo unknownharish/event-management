@@ -21,6 +21,7 @@ CREATE TABLE events (
   description TEXT,
   location VARCHAR(100),
   date TIMESTAMP,
+  event_image TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by INT NOT NULL,
   category event_category,

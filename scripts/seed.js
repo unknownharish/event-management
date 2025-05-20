@@ -1,9 +1,9 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
-dotenv.config(); 
+dotenv.config();
 
 
-console.log("process",process.env.POSTGRES_PASSWORD)
+console.log("process", process.env.POSTGRES_PASSWORD)
 
 
 const pool = new Pool({
@@ -30,9 +30,9 @@ async function seed() {
     `);
 
     await pool.query(`
-      INSERT INTO events (title, description, location, date, created_by, category, status) VALUES
-        ('Tech Conference 2025', 'Annual tech event.', 'New York', '2025-06-15 10:00:00', 1, 'tech', TRUE),
-        ('Webinar on Web Security', 'Learn how to secure web apps.', 'Online', '2025-06-10 15:00:00', 2, 'webinars', TRUE);
+      INSERT INTO events (title, description, location, date,event_image, created_by, category, status) VALUES
+        ('Tech Conference 2025', 'Annual tech event.', 'New York', '2025-06-15 10:00:00','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s', 1, 'tech', TRUE),
+        ('Webinar on Web Security', 'Learn how to secure web apps.', 'Online', '2025-06-10 15:00:00','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s', 2, 'webinars', TRUE);
     `);
 
     await pool.query(`
