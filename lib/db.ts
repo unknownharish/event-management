@@ -1,11 +1,12 @@
-// install relevant packages for access sqlite DB
-// import mysql from 'mysql2/promise';
+// lib/db.js
+import { Pool } from 'pg';
 
-// export const db = mysql.createPool({
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS,
-//   database: process.env.DB_NAME,
-//   waitForConnections: true,
-//   connectionLimit: 10,
-// });
+const pool = new Pool({
+  user: process.env.POSTGRES_USER,
+  host: process.env.DB_HOST,
+  database: process.env.POSTGRES_DB,
+  password: process.env.POSTGRES_PASSWORD,
+  port: 5432,
+});
+
+export default pool;
