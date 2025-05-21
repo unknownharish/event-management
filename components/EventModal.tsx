@@ -36,7 +36,7 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
     return (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg w-8/12 relative">
-                <button onClick={closeModal} className="absolute top-2 right-2 text-xl">
+                <button onClick={closeModal} className="absolute top-2 right-2 text-xl cursor-pointer">
                     <FaTimes />
                 </button>
 

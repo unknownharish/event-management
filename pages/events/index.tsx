@@ -69,7 +69,7 @@ export default function EventList() {
 
       {eventModalOpen && <EventModal isOpen={eventModalOpen} closeModal={closeModal} />}
 
-      <div className="flex flex-wrap gap-6 justify-start">
+      <div className="flex flex-wrap gap-6 justify-start mt-10">
         {eventList?.map((event, idx) => (
           <EventCard cardInfo={event} key={idx} />
         ))}

@@ -3,6 +3,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../redux/slice';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Header() {
 
@@ -13,7 +14,7 @@ export default function Header() {
 
 
   function handleChange() {
-    setshowMenu(p => !p)
+    userStore?.name && setshowMenu(p => !p)
   }
   function handleLogout() {
 
@@ -25,7 +26,9 @@ export default function Header() {
   return (
     <div className="flex justify-between items-center p-4 bg-gray-600 text-white">
       <div>
-        <p className="font-bold text-xl">Event Hub</p>
+        <Link href={"/events"}>
+          <p className="font-bold text-xl">Event Hub</p>
+        </Link>
       </div>
 
       <div className="flex items-center relative">

@@ -1,1 +1,0 @@
-// POST /api/register - Register for an event

@@ -29,8 +29,7 @@ export default async function handler(req, res) {
 
     try {
 
-      await client.query('BEGIN'); // create txn
-
+      await client.query('BEGIN'); 
       const result = await client.query(
         'INSERT INTO events (title, description, location, date, category, created_by) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
         [title, description, location, date, category, created_by]
@@ -43,7 +42,7 @@ export default async function handler(req, res) {
       console.error('Error creating event:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     } finally {
-      client.release(); // remove the session  release the lock
+      client.release(); 
     }
 
 

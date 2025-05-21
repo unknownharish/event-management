@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 export const fetchData = async (endpoint, method, options = {}) => {
   try {
 
-    console.log('method', method)
+    // console.log('method', method)
 
     let payload = {
       method: method.method,
@@ -21,13 +21,14 @@ export const fetchData = async (endpoint, method, options = {}) => {
     const response = await fetch(`${endpoint}`, payload);
 
     if (!response.ok) {
-      toast.error(`Login failed: ${response.message}`);
+      toast.error(`Request failed: ${response?.message || ""}`);
+      console.log(response)
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('login error:', error.message);
-    toast.error(`Login failed: ${error.message}`);
+    toast.error(`Request failed: ${error?.message || error}`);
   }
 };

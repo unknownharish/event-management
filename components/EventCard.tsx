@@ -42,8 +42,8 @@ export default function EventCard({ cardInfo }: { cardInfo: FormValues }) {
 
                 <div className="mt-4">
                     <button 
-                    className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-25"
-                    onClick={()=>router.push(`/event/${cardInfo?.id}`)}
+                    className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-25 cursor-pointer"
+                    onClick={()=>router.push(`/events/${cardInfo?.id}`)}
                     disabled={cardInfo?.isEdit}
                     >
                         View Event
