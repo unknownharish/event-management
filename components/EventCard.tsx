@@ -18,13 +18,16 @@ type FormValues = {
 
 export default function EventCard({ cardInfo }: { cardInfo: FormValues }) {
 
-        const router = useRouter();
-    
+    const router = useRouter();
+
 
     return (
         <div className="w-5/12 max-w-[350px] shadow-lg rounded-lg overflow-hidden border">
             <img
-                src={cardInfo.eventImage}
+                src={cardInfo?.eventImage ||
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s"
+
+                }
                 className="w-full h-48 object-cover"
             />
 
@@ -41,10 +44,10 @@ export default function EventCard({ cardInfo }: { cardInfo: FormValues }) {
                 </div>
 
                 <div className="mt-4">
-                    <button 
-                    className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-25 cursor-pointer"
-                    onClick={()=>router.push(`/events/${cardInfo?.id}`)}
-                    disabled={cardInfo?.isEdit}
+                    <button
+                        className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-25 cursor-pointer"
+                        onClick={() => router.push(`/events/${cardInfo?.id}`)}
+                        disabled={cardInfo?.isEdit}
                     >
                         View Event
                     </button>

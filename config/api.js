@@ -20,7 +20,7 @@ export const MethodHeaders = {
     
     },
     GET_EVENTS:{
-        URL:"/api/events?name={{NAME}}",
+        URL:"/api/events?name={{NAME}}&page={{PAGE}}",
         options:{
 
         },

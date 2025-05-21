@@ -26,7 +26,8 @@ export default async function handler(req, res) {
              )
              SELECT * from INFO i
              JOIN events e
-             ON  i.event_id = e.id;
+             ON  i.event_id = e.id
+             LIMIT 5;
 
         `,
                 [prevDate, currentDate]

@@ -7,9 +7,11 @@ import { GoGraph } from "react-icons/go";
 import { MdOutlineEmojiEvents } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export default function AdminDashboard() {
 
+    const router = useRouter();
     const userState = useSelector(state => state?.user);
 
     const [dailyStats, setDailyStats] = useState({
@@ -18,9 +20,9 @@ export default function AdminDashboard() {
         userRegistered: 0,
     });
 
-    const [eventData, seteventData] = useState({})
+    const [eventData, seteventData] = useState([])
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     async function getEvents() {
@@ -46,18 +48,19 @@ export default function AdminDashboard() {
 
 
     async function getPopularEvents() {
-        const PopularEventFetch = MethodHeaders.DAILY_STATS;
+        const PopularEventFetch = MethodHeaders.POPULAR_EVENT;
 
         try {
+            PopularEventFetch
 
             const response = await fetchData(
                 PopularEventFetch.URL,
                 { method: PopularEventFetch.method },
-                PopularEventFetch.options
+                { ...PopularEventFetch.options, headers: { Authorization: `Bearer ${userState?.token}` } }
             );
 
-            console.log("response", response);
-            setDailyStats(response);
+            console.log("response popular", response);
+            seteventData(response);
 
         } catch (err) {
             console.log(err)
@@ -65,8 +68,20 @@ export default function AdminDashboard() {
         }
     }
 
+
+
+    useEffect(() => {
+        if (userState?.user?.email != "admin@gmail.com") {
+            router.push("/events")
+        }
+        setLoading(false)
+    }, [])
+
+
+
     useEffect(() => {
         getEvents();
+        getPopularEvents();
     }, []);
 
     if (loading) return <div className="text-center mt-10">Loading...</div>;
@@ -113,6 +128,48 @@ export default function AdminDashboard() {
 
                 {/* popular  */}
                 <p className="text-3xl font-bold my-6">Popular</p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {eventData.map(event => (
+                        <div
+                            key={event.id}
+                            className="bg-white border shadow rounded-lg p-5 flex flex-col justify-between"
+                        >
+                            <div>
+                                <img
+                                    src={
+                                        event.event_image ||
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s"
+                                    }
+                                    alt={event.title}
+                                    className="w-full h-40 object-cover rounded mb-4"
+                                />
+
+                                <h2 className="text-xl font-semibold text-blue-700 mb-2">
+                                    {event.title}
+                                </h2>
+
+                                <p className="text-gray-600 text-sm mb-1">
+                                    {new Date(event.date).toLocaleDateString()} • {event.location}
+                                </p>
+
+                                <p className="text-gray-700 mb-3 line-clamp-3">{event.description}</p>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-4">
+                                <span className="text-sm text-gray-500">
+                                    Category:{" "}
+                                    <strong className="capitalize">{event.category}</strong>
+                                </span>
+                                <span className="bg-blue-100 text-blue-700 text-sm font-medium px-2 py-1 rounded">
+                                    {event.registrations} Registrations
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+
 
 
             </div>

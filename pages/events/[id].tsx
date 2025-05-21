@@ -60,17 +60,13 @@ export default function EventDetail({ event }) {
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow mt-10">
                 <h1 className="text-3xl font-bold text-gray-800 mb-4">{event.title}</h1>
 
-                {event.event_image && (
-                    <div className="mb-6">
-                        <Image
-                            src={event.event_image}
-                            alt={event.title}
-                            width={800}
-                            height={400}
-                            className="rounded"
-                        />
-                    </div>
-                )}
+                <div className="mb-6">
+                    <img
+                        src={event?.event_image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s"}
+                        alt={event.title}
+                        className="rounded"
+                    />
+                </div>
 
                 <div className="mb-4 text-gray-600">
                     <p><strong>Date:</strong> {new Date(event.date).toLocaleString()}</p>
@@ -110,14 +106,16 @@ export async function getStaticPaths() {
     const EventFetch = MethodHeaders.GET_EVENTS;
 
     const response = await fetchData(
-        `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}${EventFetch.URL?.replace("{{NAME}}", "")}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}${EventFetch.URL
+            ?.replace("{{NAME}}", "")
+            ?.replace("{{PAGE}}", "1")}`,
         { method: EventFetch.method },
         EventFetch.options
     )
 
-    console.log("Fetched events", EventFetch)
+    console.log("Fetched events", response)
 
-    const paths = response.map((event: any) => ({
+    const paths = response?.data?.map((event: any) => ({
         params: { id: event.id.toString() },
     }));
 

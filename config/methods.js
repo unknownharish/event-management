@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 export const fetchData = async (endpoint, method, options = {}) => {
   try {
 
-    // console.log('method', method)
+    console.log('method', method)
 
     let payload = {
       method: method.method,
