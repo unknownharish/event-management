@@ -62,7 +62,7 @@ export default function EventDetail({ event }) {
 
                 <div className="mb-6">
                     <img
-                        src={event?.event_image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s"}
+                        src={event?.event_image}
                         alt={event.title}
                         className="rounded"
                     />

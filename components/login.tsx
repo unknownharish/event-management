@@ -62,6 +62,7 @@ export default function login({ setisSignUp }) {
             if (response?.user?.email == process.env.NEXT_PUBLIC_ADMIN?.toString()) router.push("/dashboard")
             router.push("/events")
         }
+        else toast.error(response.error)
     };
 
     return (

@@ -29,18 +29,19 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
     const onSubmit = async (data: FormValues) => {
         try {
 
-            const CreateMethod = MethodHeaders.CREATE_EVENT
-            const response = await fetchData(
-                CreateMethod.URL,
-                { method: CreateMethod.method, data },
-                { ...CreateMethod.options, headers: { Authorization: `Bearer ${userState?.token}` } }
-            )
 
-            console.log("response of create", response)
+            // const CreateMethod = MethodHeaders.CREATE_EVENT
+            // const response = await fetchData(
+            //     CreateMethod.URL,
+            //     { method: CreateMethod.method, data },
+            //     { ...CreateMethod.options, headers: { Authorization: `Bearer ${userState?.token}` } }
+            // )
+
+            // console.log("response of create", response)
 
             toast.success("Event created successfully!");
-            dispatch(addEvent(response));
-            closeModal();
+            // dispatch(addEvent(response));
+            // closeModal();
         } catch (error) {
             toast.error("Failed to create event.");
         }
@@ -73,30 +74,36 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
                         <div>
                             <label htmlFor="description" className="block font-medium">Description</label>
                             <textarea
-                                {...register('description')}
+                                {...register('description', { required: 'Description is required' })}
                                 id="description"
                                 rows={4}
                                 className="w-full p-2 border border-gray-300 outline-none rounded-md"
                             />
+                            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+
                         </div>
                         <div>
                             <label htmlFor="eventImage" className="block font-medium">Image Url</label>
                             <input
                                 type="text"
-                                {...register('event_image')}
+                                {...register('event_image', { required: 'Event Image is required' })}
                                 id="eventImage"
                                 className="w-full p-2 border border-gray-300 outline-none rounded-md"
                             />
+                            {errors.event_image && <p className="text-red-500 text-sm">{errors.event_image.message}</p>}
+
                         </div>
 
                         <div>
                             <label htmlFor="location" className="block font-medium">Location</label>
                             <input
-                                {...register('location')}
+                                {...register('location',{ required: 'Location is required' })}
                                 id="location"
                                 type="text"
                                 className="w-full p-2 border border-gray-300 outline-none  rounded-md"
                             />
+                            {errors.location && <p className="text-red-500 text-sm">{errors.location.message}</p>}
+
                         </div>
 
                         <div>
