@@ -1,5 +1,5 @@
 
-CREATE TYPE event_category AS ENUM ('tech', 'webinars');
+CREATE TYPE event_category AS ENUM ('tech', 'webinars','workshops');
 
 -- Enable pgcrypto extension for hashing
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -12,6 +12,8 @@ CREATE TABLE users (
   password VARCHAR(100) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE UNIQUE INDEX idx_users_email ON users(email);
 
 
 
@@ -44,6 +46,7 @@ CREATE TABLE registrations (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE INDEX idx_registrations_event_id ON registrations(event_id);
 
 
 CREATE OR REPLACE FUNCTION hash_user_password() 

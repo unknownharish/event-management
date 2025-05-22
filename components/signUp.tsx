@@ -8,9 +8,10 @@ import { fetchData } from "../config/methods"
 
 
 import { MethodHeaders } from "../config/api"
-import { setToken } from "../utils/utils"
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { setUser } from "../redux/slice";
+import { useDispatch } from "react-redux";
 
 
 
@@ -27,7 +28,9 @@ interface SignUpFormData {
 
 export default function SignUp({ setisSignUp }) {
 
-    const router = useRouter()
+    const router = useRouter();
+    const dispatch = useDispatch();
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm<SignUpFormData>();
 
     const onSubmit = async (data: SignUpFormData) => {
@@ -43,7 +46,9 @@ export default function SignUp({ setisSignUp }) {
 
         console.log("response", response)
         if (response.token) {
-            setToken(response.token)
+            // setToken(response.token)
+            dispatch(setUser(response))
+
             toast.success("Loggin In")
             router.push("/events")
         }

@@ -7,6 +7,7 @@ interface UserState {
     email: string | null;
   };
   token: string | null;
+  events: Object[];
 }
 
 const initialState: UserState = {
@@ -16,6 +17,7 @@ const initialState: UserState = {
     email: null,
   },
   token: null,
+  events: []
 };
 
 const userSlice = createSlice({
@@ -26,6 +28,12 @@ const userSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
+    setEvents(state, action: PayloadAction<UserState['events']>) {
+      state.events = action.payload;
+    },
+    addEvent(state, action: PayloadAction<Object>) {
+      state.events = [...state.events, action.payload];
+    },
     clearUser(state) {
       state.user = initialState.user;
       state.token = null;
@@ -33,6 +41,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, setEvents, addEvent,clearUser } = userSlice.actions;
 
 export default userSlice.reducer;

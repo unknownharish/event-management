@@ -71,7 +71,7 @@ export default function AdminDashboard() {
 
 
     useEffect(() => {
-        if (userState?.user?.email != "admin@gmail.com") {
+        if (userState?.user?.email != process.env.NEXT_PUBLIC_ADMIN?.toString()) {
             router.push("/events")
         }
         setLoading(false)

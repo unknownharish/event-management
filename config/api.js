@@ -43,6 +43,14 @@ export const MethodHeaders = {
         method:"post"
     
     },
+    CREATE_EVENT:{
+        URL:"/api/events",
+        options:{
+
+        },
+        method:"post"
+    
+    },
     DAILY_STATS:{
         URL:"api/admin/daily",
         options:{

@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaTimes } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import EventCard from './eventCard';
+import { MethodHeaders } from '../config/api';
+import { fetchData } from '../config/methods';
+import { addEvent } from '../redux/slice';
 
 
 type FormValues = {
     title: string;
     description: string;
-    eventImage: string;
+    event_image: string;
     location: string;
     date: string;
     category: string;
@@ -18,13 +21,25 @@ type FormValues = {
 export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, closeModal: () => void }) {
 
 
-    const { register, handleSubmit,watch, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormValues>();
     const dispatch = useDispatch();
+    const userState = useSelector(state => state?.user);
+
 
     const onSubmit = async (data: FormValues) => {
         try {
 
+            const CreateMethod = MethodHeaders.CREATE_EVENT
+            const response = await fetchData(
+                CreateMethod.URL,
+                { method: CreateMethod.method, data },
+                { ...CreateMethod.options, headers: { Authorization: `Bearer ${userState?.token}` } }
+            )
+
+            console.log("response of create", response)
+
             toast.success("Event created successfully!");
+            dispatch(addEvent(response));
             closeModal();
         } catch (error) {
             toast.error("Failed to create event.");
@@ -68,7 +83,7 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
                             <label htmlFor="eventImage" className="block font-medium">Image Url</label>
                             <input
                                 type="text"
-                                {...register('eventImage')}
+                                {...register('event_image')}
                                 id="eventImage"
                                 className="w-full p-2 border border-gray-300 outline-none rounded-md"
                             />
@@ -90,7 +105,9 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
                                 {...register('date', { required: 'Date is required' })}
                                 id="date"
                                 type="datetime-local"
+                                min={new Date().toISOString().slice(0, 16)}
                                 className="w-full p-2 border border-gray-300 outline-none rounded-md"
+
                             />
                             {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
                         </div>
@@ -102,10 +119,9 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
                                 id="category"
                                 className="w-full p-2 border border-gray-300 outline-none  rounded-md"
                             >
-                                <option value="workshop">Workshop</option>
-                                <option value="seminar">Seminar</option>
-                                <option value="conference">Conference</option>
-                                {/* Add more categories as needed */}
+                                <option value="workshops">Workshops</option>
+                                <option value="webinars">Webinars</option>
+                                <option value="tech">Tech</option>
                             </select>
                             {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
                         </div>
@@ -119,7 +135,7 @@ export default function EventModal({ isOpen, closeModal }: { isOpen: boolean, cl
                     </form>
 
 
-                    <EventCard cardInfo={{...watch(),isEdit:true}}/>
+                    <EventCard cardInfo={{ ...watch(), isEdit: true }} />
 
 
 

@@ -15,6 +15,8 @@ import { CiSquarePlus } from "react-icons/ci";
 import EventModal from '../../components/EventModal';
 import EventCard from '../../components/eventCard';
 import { PiCaretDoubleLeftThin, PiCaretDoubleRightThin } from "react-icons/pi";
+import { useDispatch, useSelector } from 'react-redux';
+import { setEvents } from '../../redux/slice';
 
 
 
@@ -22,7 +24,10 @@ import { PiCaretDoubleLeftThin, PiCaretDoubleRightThin } from "react-icons/pi";
 
 export default function EventList() {
 
-  const [eventList, setEventList] = useState([])
+  const dispatch = useDispatch();
+  const userState = useSelector(state => state?.user);
+
+  const eventList = userState?.events || [];
   const [eventModalOpen, seteventModalOpen] = useState(false)
   const [inputSearch, setinputSearch] = useState("")
   const [paginationData, setpaginationData] = useState({
@@ -31,6 +36,8 @@ export default function EventList() {
     "total": 0,
     "totalPages": 1
   })
+
+
 
   async function getEvents() {
 
@@ -44,7 +51,7 @@ export default function EventList() {
       EventFetch.options
     )
     console.log("response", response)
-    response?.data?.length && setEventList(response.data)
+    response?.data?.length && dispatch(setEvents(response.data));
     response?.pagination && setpaginationData(response.pagination)
   }
 

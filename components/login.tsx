@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -9,9 +9,8 @@ import { fetchData } from "../config/methods"
 
 
 import { MethodHeaders } from "../config/api"
-import { setToken } from "../utils/utils"
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/slice";
 
 
@@ -27,9 +26,20 @@ export default function login({ setisSignUp }) {
 
     const router = useRouter();
     const dispatch = useDispatch();
+    const userState = useSelector(state => state?.user);
 
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
+
+
+    useEffect(() => {
+        if (userState?.token) {
+            router.push("/events")
+        }
+    }, [])
+
+
+
 
     const onSubmit = async (data: LoginFormData) => {
 
@@ -47,6 +57,9 @@ export default function login({ setisSignUp }) {
             dispatch(setUser(response))
             // setToken(response.token)
             toast.success("Loggin In")
+
+            // check admin
+            if (response?.user?.email == process.env.NEXT_PUBLIC_ADMIN?.toString()) router.push("/dashboard")
             router.push("/events")
         }
     };

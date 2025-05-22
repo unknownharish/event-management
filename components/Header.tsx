@@ -32,7 +32,6 @@ export default function Header() {
       </div>
 
       <div className="flex items-center relative">
-        {/* User icon */}
         <FaCircleUser size={24} className="mr-2 cursor-pointer" onClick={handleChange} />
         {showMenu && <div
           className="absolute -right-5 top-5 bg-white text-black rounded-md shadow-md mt-2 py-2 px-4 w-48"

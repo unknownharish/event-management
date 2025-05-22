@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 type FormValues = {
     title: string;
     description: string;
-    eventImage: string;
+    event_image: string;
     location: string;
     date: string;
     category: string;
@@ -24,10 +24,7 @@ export default function EventCard({ cardInfo }: { cardInfo: FormValues }) {
     return (
         <div className="w-5/12 max-w-[350px] shadow-lg rounded-lg overflow-hidden border">
             <img
-                src={cardInfo?.eventImage ||
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOHh-w2kJjp6R6WB1GpXMkREw6XaNU5JCP0w&s"
-
-                }
+                src={cardInfo?.event_image }
                 className="w-full h-48 object-cover"
             />
 
