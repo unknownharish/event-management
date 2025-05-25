@@ -1,6 +1,6 @@
 // Event listing page (React + Next.js)
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 
 
@@ -18,6 +18,9 @@ import { PiCaretDoubleLeftThin, PiCaretDoubleRightThin } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import { setEvents } from '../../redux/slice';
 
+
+
+import { debounce } from "../../utils/utils"
 
 
 
@@ -39,22 +42,27 @@ export default function EventList() {
 
 
 
-  async function getEvents() {
+  async function getEvents(value = "") {
 
     const EventFetch = MethodHeaders.GET_EVENTS
-    const pageNumber = inputSearch.length ? "1" : (paginationData?.page).toString() || "1"
+    const pageNumber = value.length ? "1" : (paginationData?.page).toString() || "1"
     const response = await fetchData(
       EventFetch.URL
-        ?.replace("{{NAME}}", inputSearch)
+        ?.replace("{{NAME}}", value)
         ?.replace("{{PAGE}}", pageNumber),
       { method: EventFetch.method },
       EventFetch.options
     )
     console.log("response", response)
-    response?.data?.length && dispatch(setEvents(response.data));
+    // response?.data?.length && dispatch(setEvents(response.data));
+    dispatch(setEvents(response.data));
     response?.pagination && setpaginationData(response.pagination)
   }
 
+
+  let debouncedGetEvents = useCallback(debounce((value) => {
+    getEvents(value)
+  }, 500),[])
 
   function closeModal() {
     seteventModalOpen(false)
@@ -69,7 +77,8 @@ export default function EventList() {
   }, [paginationData.page])
 
   useEffect(() => {
-    !inputSearch.length && getEvents()
+    // !inputSearch.length && getEvents(inputSearch)
+    debouncedGetEvents(inputSearch)
   }, [inputSearch])
 
 

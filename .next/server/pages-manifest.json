@@ -2,13 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
   "/events": "pages/events.js",
-  "/events/[id]": "pages/events/[id].js",
-  "/api/login": "pages/api/login.js",
-  "/api/events/[id]": "pages/api/events/[id].js",
-  "/dashboard": "pages/dashboard.js",
-  "/api/events": "pages/api/events.js",
-  "/api/admin/daily": "pages/api/admin/daily.js",
-  "/api/admin/popular": "pages/api/admin/popular.js"
+  "/api/events": "pages/api/events.js"
 }
